@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Management - TicketApp</title>
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/ticket.css">
+  <link rel="stylesheet" href="/css/modal.css">
+</head>
+<body>
+
+  {% include 'navbar.twig' %}
+
+  <main class="main-container">
+    <div class="page-header">
+      <h1>Ticket Management</h1>
+      <div class="search-create">
+        <input type="text" id="search" placeholder="Search tickets...">
+        <button id="new-ticket-btn">+ New Ticket</button>
+      </div>
+    </div>
+
+    <div id="ticket-grid" class="ticket-grid">
+      {% for ticket in tickets %}
+        <div class="ticket-card" data-id="{{ ticket.id }}">
+          <h2>{{ ticket.title }}</h2>
+          {% if ticket.description %}
+            <p>{{ ticket.description }}</p>
+          {% endif %}
+          <span class="status {{ ticket.status }}">{{ ticket.status|replace({'_':' '})|upper }}</span>
+          <div class="ticket-actions">
+            <button class="edit-btn" data-id="{{ ticket.id }}">Edit</button>
+            <button class="delete-btn" data-id="{{ ticket.id }}">Delete</button>
+          </div>
+        </div>
+      {% else %}
+        <p class="no-tickets">No tickets found.</p>
+      {% endfor %}
+    </div>
+  </main>
+
+  {% include 'footer.twig' %}
+
+  <!-- Ticket Modal -->
+  <div id="ticket-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modal-title">Create Ticket</h2>
+      <button class="modal-close">✕</button>
+      <form id="ticket-form">
+        <input type="text" id="ticket-title" placeholder="Title" required>
+        <textarea id="ticket-desc" placeholder="Description"></textarea>
+        <select id="ticket-status">
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="closed">Closed</option>
+        </select>
+        <button type="submit">Save Ticket</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div id="confirm-delete-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Confirm Deletion</h2>
+      <p>Are you sure you want to delete this ticket?</p>
+      <div class="modal-buttons">
+        <button id="cancel-delete">Cancel</button>
+        <button id="confirm-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <script src="/js/ticket_management.js"></script>
+  <script>
+    // Toast helper function
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      container.appendChild(toast);
+
+      // Animate
+      toast.style.transform = "translateY(-100px)";
+      toast.style.opacity = "0";
+      toast.style.transition = "all 0.4s ease-in-out";
+      requestAnimationFrame(() => {
+        toast.style.transform = "translateY(30px)";
+        toast.style.opacity = "1";
+      });
+
+      // Auto-remove
+      setTimeout(() => {
+        toast.style.transform = "translateY(-100px)";
+        toast.style.opacity = "0";
+        toast.addEventListener('transitionend', () => toast.remove());
+      }, 2500);
+    }
+  </script>
+</body>
+</html>

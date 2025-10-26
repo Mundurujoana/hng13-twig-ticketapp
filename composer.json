@@ -1,0 +1,14 @@
+{
+    "name": "mundurujoana/ticketapptwig",
+    "description": "Ticket booking app backend for PHP",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mundurujoana\\Ticketapptwig\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "twig/twig": "^3.21"
+    }
+}

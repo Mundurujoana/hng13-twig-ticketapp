@@ -1,0 +1,232 @@
+:root {
+  --bg-from: #eff6ff;   /* blue-50 */
+  --bg-via: #f5f3ff;    /* purple-50 */
+  --bg-to:   #fff0f6;   /* pink-50 */
+  --accent-blue: #2563eb; /* blue-600 */
+  --accent-blue-dark: #1e40af; /* blue-700 */
+  --muted-gray: #6b7280; /* gray-600 */
+  --card-bg: #ffffff;
+}
+
+/* Page wrapper */
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 1rem;
+  background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-via) 50%, var(--bg-to) 100%);
+  font-family: "Inter", sans-serif;
+}
+
+/* Animated Blobs */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.blob--blue {
+  width: 400px;
+  height: 400px;
+  top: -80px;
+  left: -80px;
+  background: #93c5fd;
+  opacity: 0.4;
+  animation: blob-float 12s ease-in-out infinite;
+}
+
+.blob--purple {
+  width: 350px;
+  height: 350px;
+  bottom: -100px;
+  right: -60px;
+  background: #c4b5fd;
+  opacity: 0.3;
+  animation: blob-float-reverse 16s ease-in-out infinite;
+}
+
+/* Blob animations */
+@keyframes blob-float {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.05) translateY(-20px); }
+}
+@keyframes blob-float-reverse {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.05) translateY(20px); }
+}
+
+/* Form card */
+.login-form-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 1.25rem;
+  box-shadow:
+    0 10px 15px rgba(10, 10, 10, 0.04),
+    0 4px 6px rgba(10, 10, 10, 0.04);
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  animation: form-fade-in 0.7s ease-out forwards;
+}
+
+/* Form heading */
+.login-form-card h1 {
+  font-size: 1.875rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+/* Error */
+.login-error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  text-align: center;
+  animation: fade-in 0.3s ease forwards;
+}
+
+/* Inputs */
+.login-input {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  background: #fff;
+}
+
+.login-input:focus {
+  border-color: rgba(59,130,246,0.6);
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.12);
+}
+
+/* Button */
+.login-btn {
+  background: var(--accent-blue);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.06s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 12px rgba(37,99,235,0.12);
+}
+
+.login-btn:hover {
+  background: var(--accent-blue-dark);
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(37,99,235,0.18);
+}
+
+.login-btn:active {
+  transform: translateY(1px);
+}
+
+/* Helper text */
+.login-helper {
+  font-size: 0.875rem;
+  color: var(--muted-gray);
+}
+
+.login-helper a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-helper a:hover {
+  text-decoration: underline;
+}
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: rgba(17,24,39,0.9);
+  color: #fff;
+  font-weight: 500;
+  animation: toast-fade 0.3s ease forwards;
+  z-index: 50;
+}
+
+.toast-success { background-color: #16a34a; }
+.toast-error   { background-color: #dc2626; }
+
+@keyframes toast-fade {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form fade-in */
+@keyframes form-fade-in {
+  0% { opacity: 0; transform: translateY(50px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+
+/* Responsive */
+@media (max-width: 480px) {
+  .blob--blue, .blob--purple { display: none; }
+  .login-form-card { padding: 1.25rem; border-radius: 1rem; }
+}
+
+
+/* Toast container */
+.toast {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  max-width: 350px;
+  width: 90%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  text-align: center;
+  color: #fff;
+  background-color: #000;
+  border: 1px solid #333;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.toast.success { border-color: #16a34a; }
+.toast.error { border-color: #dc2626; }
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toast-icon {
+  font-size: 1.25rem;
+}
+
+.toast-message {
+  word-break: break-word;
+  font-size: 0.875rem;
+}

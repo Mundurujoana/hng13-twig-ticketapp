@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - TicketApp</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+
+</head>
+<body>
+
+ <!-- Navbar Twig Include -->
+  {% include 'navbar.twig' %}
+<div class="dashboard-page">
+
+  <!-- Background Blobs -->
+  <div class="blob blob--blue"></div>
+  <div class="blob blob--purple"></div>
+
+ 
+  <main>
+    <!-- Header -->
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+      <p>Manage and monitor all your tickets at a glance.</p>
+    </div>
+
+    <!-- Stats Section -->
+    <div id="stats-grid">
+      <div>
+        <span id="icon-total">📋</span>
+        <h2>Total Tickets</h2>
+        <p id="total-tickets">0</p>
+      </div>
+      <div>
+        <span id="icon-in-progress">📊</span>
+        <h2>In Progress</h2>
+        <p id="in-progress-tickets">0</p>
+      </div>
+      <div>
+        <span id="icon-open">✅</span>
+        <h2>Open Tickets</h2>
+        <p id="open-tickets">0</p>
+      </div>
+      <div>
+        <span id="icon-closed">✔️</span>
+        <h2>Closed Tickets</h2>
+        <p id="closed-tickets">0</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="quick-actions">
+      <div>
+        <h2>Quick Actions</h2>
+        <p>Create or manage tickets with one click.</p>
+      </div>
+      <div>
+        <a href="/tickets">Manage Tickets</a>
+      </div>
+    </div>
+  </main>
+
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const tickets = JSON.parse(localStorage.getItem("ticketapp_tickets") || "[]");
+
+  const totalTickets = tickets.length;
+  const openTickets = tickets.filter(t => t.status === "open").length;
+  const closedTickets = tickets.filter(t => t.status === "closed").length;
+  const inProgressTickets = tickets.filter(t => t.status === "in_progress").length;
+
+  document.getElementById("total-tickets").textContent = totalTickets;
+  document.getElementById("open-tickets").textContent = openTickets;
+  document.getElementById("closed-tickets").textContent = closedTickets;
+  document.getElementById("in-progress-tickets").textContent = inProgressTickets;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* Navbar.css */
+
+.navbar {
+  background-color: white;
+  border-bottom: 1px solid #f3f4f6; /* Tailwind gray-100 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem; /* py-3 px-6 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2563eb; /* blue-600 */
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navbar-logo span {
+  color: #111827; /* gray-900 */
+}
+
+.navbar-logo:hover {
+  color: #1e40af; /* blue-700 */
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* gap-6 */
+}
+
+.navbar-link {
+  color: #374151; /* gray-700 */
+  font-weight: 600; /* increased from 500 to 600 */
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navbar-link:hover {
+  color: #2563eb; /* blue-600 */
+}
+
+.navbar-button {
+  background: linear-gradient(to right, #ef4444, #dc2626); /* red-500 to red-600 */
+  color: white;
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-button:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to right, #dc2626, #b91c1c); /* hover gradient */
+}
+
+/* Mobile Menu Button */
+.mobile-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151; /* gray-700 */
+  transition: color 0.2s;
+}
+
+.mobile-button:hover {
+  color: #2563eb; /* blue-600 */
+}
+
+/* Mobile Dropdown Menu */
+.mobile-menu {
+  background-color: white;
+  border-top: 1px solid #f3f4f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem; /* py-4 px-6 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space-y-3 */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: none;
+  }
+
+  .mobile-button {
+    display: block;
+  }
+}

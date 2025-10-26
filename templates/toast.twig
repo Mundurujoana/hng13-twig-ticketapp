@@ -1,0 +1,35 @@
+{# toast.twig #}
+{% if message %}
+<div id="toast" class="toast {{ type|default('success') }}">
+  <div class="toast-content">
+    {% if type == 'success' %}
+      <span class="toast-icon">✔</span>
+    {% else %}
+      <span class="toast-icon">✖</span>
+    {% endif %}
+    <p class="toast-message">{{ message }}</p>
+  </div>
+</div>
+<script>
+  // Animate toast
+  const toast = document.getElementById("toast");
+  if(toast){
+    toast.style.transform = "translateY(-100px)";
+    toast.style.opacity = "0";
+    toast.style.transition = "all 0.4s ease-in-out";
+    
+    // Enter animation
+    requestAnimationFrame(() => {
+      toast.style.transform = "translateY(30px)";
+      toast.style.opacity = "1";
+    });
+
+    // Exit after 2.5s
+    setTimeout(() => {
+      toast.style.transform = "translateY(-100px)";
+      toast.style.opacity = "0";
+      toast.addEventListener('transitionend', () => toast.remove());
+    }, 2500);
+  }
+</script>
+{% endif %}

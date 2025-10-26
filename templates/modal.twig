@@ -1,0 +1,10 @@
+{# Modal wrapper. Add 'hidden' class to hide by default #}
+<div id="{{ modal_id }}" class="modal hidden">
+  <div class="modal-content">
+    <h2 class="modal-title">{{ title }}</h2>
+    <button class="modal-close">✕</button>
+    <div class="modal-body">
+      {{ content|raw }}
+    </div>
+  </div>
+</div>

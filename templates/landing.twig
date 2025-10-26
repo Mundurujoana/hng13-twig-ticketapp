@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TicketApp Landing</title>
+  <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+
+<main class="landing-page">
+
+  <!-- Decorative Blobs -->
+  <img src="/assets/blob.svg" class="landing-blob blob-0" alt="Decorative blob">
+  <img src="/assets/blob1.svg" class="landing-blob blob-1" alt="Decorative blob">
+  <img src="/assets/blob2.svg" class="landing-blob blob-2" alt="Decorative blob">
+  <img src="/assets/blob3.svg" class="landing-blob blob-3" alt="Decorative blob">
+
+  <!-- Extra Hero Circle -->
+  <div class="hero-circle" aria-hidden="true"></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section" aria-label="Welcome Section">
+    <h1>Welcome to TicketApp</h1>
+    <p>Manage, track, and resolve tickets efficiently — all in one place.</p>
+    <div class="hero-buttons">
+      <a href="/login" class="login-btn" role="button">Login</a>
+      <a href="/login" class="signup-btn" role="button">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Feature Section -->
+  <section class="feature-section" aria-label="Features">
+    <article class="feature-card">
+      <img src="/assets/create.png" alt="Create Tickets Icon">
+      <h3>Create Tickets</h3>
+      <p>Easily create new tickets and track issues in real-time.</p>
+    </article>
+    <article class="feature-card">
+      <img src="/assets/track.png" alt="Track Tickets Icon">
+      <h3>Track Tickets</h3>
+      <p>Monitor the progress of tickets with status indicators.</p>
+    </article>
+    <article class="feature-card">
+      <img src="/assets/resolve.png" alt="Resolve Tickets Icon">
+      <h3>Resolve Tickets</h3>
+      <p>Mark tickets as resolved and maintain a clean workflow.</p>
+    </article>
+  </section>
+
+  <!-- Wave SVG -->
+  <img src="/assets/wave.svg" class="wave" alt="Decorative wave">
+
+  <!-- Footer -->
+  {% include 'footer.twig' %}
+
+</main>
+
+</body>
+</html>

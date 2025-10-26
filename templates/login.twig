@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - TicketApp</title>
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+
+<main class="login-page">
+
+  <!-- Animated Blobs -->
+  <div class="blob blob--blue" aria-hidden="true"></div>
+  <div class="blob blob--purple" aria-hidden="true"></div>
+
+  <!-- Login Form Card -->
+  <section aria-label="Login Form">
+    <form id="login-form" class="login-form-card">
+      <h1>Login</h1>
+
+      <p class="login-error" id="login-error" style="display:none;"></p>
+
+      <input type="email" id="login-email" placeholder="Email" class="login-input" required>
+      <input type="password" id="login-password" placeholder="Password" class="login-input" required>
+
+      <button type="submit" class="login-btn">Login</button>
+
+      <p class="login-helper">
+        Don't have an account? 
+        <a href="/auth/signup">Sign Up</a>
+      </p>
+    </form>
+  </section>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Footer -->
+  {% include 'footer.twig' %}
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("login-form");
+  const errorEl = document.getElementById("login-error");
+
+  // Show toast if redirected from signup
+  const urlParams = new URLSearchParams(window.location.search);
+  const toastMsg = urlParams.get('toast');
+  const toastType = urlParams.get('type') || 'success';
+  if(toastMsg){ showToast(toastMsg, toastType); }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value.trim();
+
+    if(!email || !password){
+      errorEl.textContent = "Please fill in all fields.";
+      errorEl.style.display = "block";
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("ticketapp_users") || "[]");
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if(user){
+      localStorage.setItem("ticketapp_session", JSON.stringify({ email, token: Date.now() }));
+      errorEl.style.display = "none";
+      showToast("Login successful! Redirecting...", "success");
+      setTimeout(() => window.location.href = "/dashboard", 1500);
+    } else {
+      showToast("Invalid email or password.", "error");
+      errorEl.style.display = "none";
+    }
+  });
+
+  // Toast function
+  function showToast(message, type = "success") {
+    const container = document.getElementById("toast-container");
+    const toast = document.createElement("div");
+    toast.textContent = message;
+    toast.className = `toast ${type}`;
+    container.appendChild(toast);
+
+    // Animate
+    toast.style.transform = "translateY(-100px)";
+    toast.style.opacity = "0";
+    toast.style.transition = "all 0.4s ease-in-out";
+    requestAnimationFrame(() => {
+      toast.style.transform = "translateY(30px)";
+      toast.style.opacity = "1";
+    });
+
+    setTimeout(() => {
+      toast.style.transform = "translateY(-100px)";
+      toast.style.opacity = "0";
+      toast.addEventListener('transitionend', () => toast.remove());
+    }, 2500);
+  }
+});
+</script>
+
+</body>
+</html>
