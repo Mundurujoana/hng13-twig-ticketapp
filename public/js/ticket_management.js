@@ -2,20 +2,19 @@ document.addEventListener("DOMContentLoaded", () => {
   let tickets = JSON.parse(localStorage.getItem("ticketapp_tickets") || "[]");
 
   const ticketGrid = document.getElementById("ticket-grid");
-  const modal = document.getElementById("ticket-modal");
+  const ticketModal = document.getElementById("ticket-modal");
   const confirmModal = document.getElementById("confirm-delete-modal");
-  const form = document.getElementById("ticket-form");
+  const ticketForm = document.getElementById("ticket-form");
   const titleInput = document.getElementById("ticket-title");
   const descInput = document.getElementById("ticket-desc");
   const statusSelect = document.getElementById("ticket-status");
-  const modalTitle = document.getElementById("modal-title");
+  const modalTitle = ticketModal.querySelector(".modal-title");
 
   let editingTicketId = null;
   let deletingTicketId = null;
 
   function saveTickets() {
     localStorage.setItem("ticketapp_tickets", JSON.stringify(tickets));
-    window.dispatchEvent(new Event('ticketsUpdated'));
     renderTickets();
   }
 
@@ -42,8 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function openModal(ticket = null) {
-    modal.classList.remove("hidden");
+  // ===== Modal Functions =====
+  function openTicketModal(ticket = null) {
+    ticketModal.classList.remove("hidden");
     if (ticket) {
       modalTitle.textContent = "Edit Ticket";
       titleInput.value = ticket.title;
@@ -52,13 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
       editingTicketId = ticket.id;
     } else {
       modalTitle.textContent = "Create Ticket";
-      form.reset();
+      ticketForm.reset();
       editingTicketId = null;
     }
   }
 
-  function closeModal() {
-    modal.classList.add("hidden");
+  function closeTicketModal() {
+    ticketModal.classList.add("hidden");
   }
 
   function openConfirmModal(ticketId) {
@@ -68,9 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeConfirmModal() {
     confirmModal.classList.add("hidden");
+    deletingTicketId = null;
   }
 
-  // Toast function
+  // ===== Toast =====
   function showToast(message, type = "success") {
     const container = document.getElementById("toast-container");
     const toast = document.createElement("div");
@@ -78,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.className = `toast ${type}`;
     container.appendChild(toast);
 
-    // Animate
     toast.style.transform = "translateY(-100px)";
     toast.style.opacity = "0";
     toast.style.transition = "all 0.4s ease-in-out";
@@ -87,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
       toast.style.opacity = "1";
     });
 
-    // Auto-remove
     setTimeout(() => {
       toast.style.transform = "translateY(-100px)";
       toast.style.opacity = "0";
@@ -95,13 +94,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   }
 
-  // Event Listeners
-  document.getElementById("new-ticket-btn").addEventListener("click", () => openModal());
+  // ===== Event Listeners =====
+  document.getElementById("new-ticket-btn").addEventListener("click", () => openTicketModal());
 
-  modal.querySelector(".modal-close").addEventListener("click", closeModal);
+  // Close ticket modal
+  ticketModal.querySelector(".modal-close").addEventListener("click", closeTicketModal);
 
+  // Close confirm modal
+  confirmModal.querySelector(".modal-close")?.addEventListener("click", closeConfirmModal);
+
+  // Cancel delete
   confirmModal.querySelector("#cancel-delete").addEventListener("click", closeConfirmModal);
 
+  // Confirm delete
   confirmModal.querySelector("#confirm-delete").addEventListener("click", () => {
     tickets = tickets.filter(t => t.id != deletingTicketId);
     saveTickets();
@@ -109,19 +114,20 @@ document.addEventListener("DOMContentLoaded", () => {
     showToast("Ticket deleted successfully!", "success");
   });
 
+  // Edit / Delete buttons
   ticketGrid.addEventListener("click", (e) => {
     if (e.target.classList.contains("edit-btn")) {
       const id = e.target.dataset.id;
       const ticket = tickets.find(t => t.id == id);
-      openModal(ticket);
+      openTicketModal(ticket);
     } else if (e.target.classList.contains("delete-btn")) {
       openConfirmModal(e.target.dataset.id);
     }
   });
 
-  form.addEventListener("submit", (e) => {
+  // Ticket form submit
+  ticketForm.addEventListener("submit", (e) => {
     e.preventDefault();
-
     const title = titleInput.value.trim();
     if(!title){
       showToast("Title is required.", "error");
@@ -144,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     saveTickets();
-    closeModal();
+    closeTicketModal();
   });
 
   renderTickets();
